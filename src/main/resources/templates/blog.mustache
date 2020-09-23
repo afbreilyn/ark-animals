@@ -1,0 +1,30 @@
+{{> header}}
+
+<h1>{{title}}</h1>
+
+<div class="cards">
+    {{#banner.title}}
+        <section>
+            <header class="banner">
+                <h2 class="banner-title">{{banner.title}}</h2>
+            </header>
+            <div class="banner-content">
+                {{banner.content}}
+            </div>
+        </section>
+    {{/banner.title}}
+
+    {{#cards}}
+        <section>
+            <header class="card-header">
+                <h2 class="card-title"><a href="/card/{{slug}}">{{title}}</a></h2>
+                <div class="card-meta">By  <strong>{{author.firstname}}</strong>, on <strong>{{addedAt}}</strong></div>
+            </header>
+            <div class="card-description">
+                {{headline}}
+            </div>
+        </section>
+    {{/cards}}
+</div>
+
+{{> footer}}
