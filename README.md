@@ -1,11 +1,11 @@
 Working through this guide first before i mess things up :) 
 
-https://github.com/spring-guides/tut-spring-boot-kotlin
+
 
 
 TODO: 
-[x] finish this blog/tutorial (afb - 23_09_20)
-[ ] convert domain concepts to 2x2
+[x] finish this [blog tutorial](https://github.com/spring-guides/tut-spring-boot-kotlin) (afb - 23_09_20)
+[x] convert domain concepts to 2x2 (afb - 24_09_20)
 [ ] add and display cards
 [ ] improve test coverage
 [ ] use react instead of mustache

@@ -15,11 +15,11 @@ class HtmlController(
 ) {
 
     @GetMapping("/")
-    fun blog(model: Model): String {
+    fun board(model: Model): String {
         model["title"] = properties.title
         model["banner"] = properties.banner
         model["cards"] = repository.findAllByOrderByAddedAtDesc().map { it.render() }
-        return "blog"
+        return "board"
     }
 
     @GetMapping("/card/{slug}")
