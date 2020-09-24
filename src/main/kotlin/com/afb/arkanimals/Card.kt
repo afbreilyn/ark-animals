@@ -16,12 +16,3 @@ class Card(
         var addedAt: LocalDateTime = LocalDateTime.now(),
         @Id @GeneratedValue var id: Long? = null
 )
-
-@Entity
-class User(
-        var login: String,
-        var firstname: String,
-        var lastname: String,
-        var description: String? = null,
-        @Id @GeneratedValue var id: Long? = null
-)
