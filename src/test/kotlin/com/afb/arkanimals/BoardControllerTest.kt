@@ -18,7 +18,7 @@ class BoardControllerTest {
     }
 
     @Test
-    fun `should return a list of boards`() {
+    fun `returns a list of boards`() {
         stubBoardService.setReturn_getBoards = listOf(
                 Board( name = "my cool board" )
         )
@@ -32,7 +32,7 @@ class BoardControllerTest {
     }
 
     @Test
-    fun `should return a different list of boards`() {
+    fun `returns a different list of boards`() {
         stubBoardService.setReturn_getBoards = listOf(
                 Board( name = "another even cooler board" )
         )
@@ -43,5 +43,24 @@ class BoardControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].name").value("another even cooler board"))
+    }
+
+    @Test
+    fun `returns a specific board when passed an id`() {
+        var board = Board(
+                name = "a specific board",
+                id = 7.toLong()
+        )
+
+        stubBoardService.setReturn_getBoardById = board
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/boards/${board.id}")
+        )
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("a specific board"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("${board.id}"))
+
+
     }
 }

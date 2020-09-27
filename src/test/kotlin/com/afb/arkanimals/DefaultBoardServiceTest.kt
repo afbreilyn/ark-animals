@@ -18,7 +18,8 @@ class DefaultBoardServiceTest {
     fun `should return a list of boards`() {
         stubBoardRepository.setReturn_getBoards = listOf(
                 Board(
-                        name = "board name"
+                        name = "board name",
+                        id = 7.toLong()
                 )
         )
 
@@ -26,11 +27,12 @@ class DefaultBoardServiceTest {
 
         val expectedBoards = listOf(
                 Board(
-                        name = "board name"
+                        name = "board name",
+                        id = 7.toLong()
                 )
         )
 
-        assertThat(actualBoards).isEqualTo(expectedBoards)
+        assertThat(actualBoards[0].name).isEqualTo(expectedBoards[0].name)
     }
 
     @Test
@@ -49,6 +51,28 @@ class DefaultBoardServiceTest {
                 )
         )
 
-        assertThat(actualBoards).isEqualTo(expectedBoards)
+        assertThat(actualBoards[0].name).isEqualTo(expectedBoards[0].name)
+    }
+
+    @Test
+    fun `returns a specific board when passed an id`() {
+        val specificBoard = Board(
+                name = "specific board",
+                id = 123.toLong()
+        )
+
+        stubBoardRepository.setReturn_getBoardById = specificBoard
+
+        val actualBoard = boardService.getBoardById("${specificBoard.id}")
+
+        val expectedBoard =
+                Board(
+                        name = "specific board",
+                        id = 123.toLong()
+                )
+
+
+        assertThat(actualBoard.name).isEqualTo(expectedBoard.name)
+        assertThat(actualBoard.name).isEqualTo(expectedBoard.name)
     }
 }
