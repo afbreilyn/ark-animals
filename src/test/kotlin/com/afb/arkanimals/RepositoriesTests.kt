@@ -8,10 +8,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.data.repository.findByIdOrNull
 
 @DataJpaTest
-class RepositoriesTests @Autowired constructor(
-        val entityManager: TestEntityManager,
-        val userRepository: UserRepository,
-        val cardRepository: CardRepository) {
+class RepositoriesTests {
+
+    @Autowired
+    lateinit var entityManager: TestEntityManager
+
+    @Autowired
+    lateinit var userRepository: UserRepository
+
+    @Autowired
+    lateinit var cardRepository: CardRepository
 
     @Test
     fun `When findByIdOrNull then return Article`() {
