@@ -9,8 +9,8 @@ class ArkAnimalsConfiguration {
 
     @Bean
     fun databaseInitializer(mustachioRepository: MustachioRepository) = ApplicationRunner {
-        mustachioRepository.save(
-                Mustachio("general kenobi")
-        )
+//        mustachioRepository.save(
+//                Mustachio("general kenobi")
+//        )
     }
 }
