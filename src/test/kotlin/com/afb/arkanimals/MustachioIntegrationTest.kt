@@ -68,7 +68,7 @@ class MustachioIntegrationTest {
     }
 
     @Test
-    fun `saves and returns on of the mustachios`() {
+    fun `saves and returns one of the mustachios`() {
         val mustachio = Mustachio("anne")
 
         mvc.perform(post("/api/mustachios").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
