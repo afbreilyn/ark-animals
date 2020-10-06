@@ -8,20 +8,9 @@ import org.springframework.context.annotation.Configuration
 class ArkAnimalsConfiguration {
 
     @Bean
-    fun databaseInitializer(userRepository: UserRepository,
-                            cardRepository: CardRepository) = ApplicationRunner {
-        val smaldini = userRepository.save(User("smaldini", "Stéphane", "Maldini"))
-        cardRepository.save(Card(
-                title = "Reactor Bismuth is out",
-                headline = "Lorem ipsum",
-                content = "dolor sit amet",
-                author = smaldini
-        ))
-        cardRepository.save(Card(
-                title = "Reactor Aluminium has landed",
-                headline = "Lorem ipsum",
-                content = "dolor sit amet",
-                author = smaldini
-        ))
+    fun databaseInitializer(mustachioRepository: MustachioRepository) = ApplicationRunner {
+        mustachioRepository.save(
+                Mustachio("general kenobi")
+        )
     }
 }
