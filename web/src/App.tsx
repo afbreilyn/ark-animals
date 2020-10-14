@@ -1,8 +1,6 @@
-import React, { FormEvent, useEffect, useState } from 'react'
-import logo from './logo.svg'
+import React, { FormEvent, useState } from 'react'
 import './App.css'
 import axios, { AxiosResponse } from 'axios'
-
 
 export const App = () => {
   const [greeting, setGreeting] = useState("")
