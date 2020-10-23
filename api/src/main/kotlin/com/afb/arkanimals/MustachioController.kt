@@ -19,7 +19,7 @@ class MustachioController {
 
     @GetMapping("/mustachios/{name}")
     fun getAllMustachiosByName(@PathVariable name: String): List<Mustachio> {
-        return mustachioService.findAllByFirstname(name).toList()
+        return mustachioService.findAllByFirstName(name).toList()
     }
 
     @PostMapping("/mustachios")

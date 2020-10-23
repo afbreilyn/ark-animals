@@ -32,7 +32,7 @@ class DefaultMustachioServiceTest {
         var tjMustachio = Mustachio("TJ", 2L)
         var allMustachios = arrayOf(tjMustachio).toList()
 
-        Mockito.`when`(mustachioRepository.findAllByFirstname("TJ"))
+        Mockito.`when`(mustachioRepository.findAllByFirstName("TJ"))
                 .thenReturn(allMustachios)
 
         Mockito.`when`(mustachioRepository.findAll())
@@ -42,16 +42,16 @@ class DefaultMustachioServiceTest {
     @Test
     fun `it getsAllByFirstname`() {
         val firstname = "TJ"
-        val found = mustachioService.findAllByFirstname(firstname)
+        val found = mustachioService.findAllByFirstName(firstname)
 
-        assertThat(found.first().firstname).isEqualTo(firstname)
+        assertThat(found.first().firstName).isEqualTo(firstname)
     }
 
     @Test
     fun `finds all`() {
         val found = mustachioRepository.findAll()
 
-        assertThat(found.first().firstname).isEqualTo("TJ")
+        assertThat(found.first().firstName).isEqualTo("TJ")
     }
 
     @Test

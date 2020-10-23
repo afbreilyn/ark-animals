@@ -8,8 +8,8 @@ class DefaultMustachioService : MustachioService {
     @Autowired
     lateinit var mustachioRepository: MustachioRepository
 
-    override fun findAllByFirstname(firstName: String): Iterable<Mustachio> {
-        return mustachioRepository.findAllByFirstname(firstName)
+    override fun findAllByFirstName(firstName: String): Iterable<Mustachio> {
+        return mustachioRepository.findAllByFirstName(firstName)
     }
 
     override fun findAll(): Iterable<Mustachio> {

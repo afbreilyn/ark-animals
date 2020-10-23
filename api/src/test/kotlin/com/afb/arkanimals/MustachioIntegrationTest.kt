@@ -49,7 +49,7 @@ class MustachioIntegrationTest {
         )
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstname").value("aaron"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstName").value("aaron"))
 
     }
 
@@ -64,17 +64,19 @@ class MustachioIntegrationTest {
         )
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstname").value("cedar"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstName").value("cedar"))
     }
 
     @Test
     fun `saves and returns one of the mustachios`() {
         val mustachio = Mustachio("anne")
 
+        println(toJson(mustachio))
+
         mvc.perform(post("/api/mustachios").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
 
         val found: List<Mustachio> = mustachioRepository.findAll()
-        assertThat(found.first().firstname).isEqualTo("anne")
+        assertThat(found.first().firstName).isEqualTo("anne")
     }
 
     fun toJson(`object`: Any?): ByteArray {

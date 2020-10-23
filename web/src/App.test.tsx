@@ -2,15 +2,16 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import App from './App'
 
-import axios from 'axios';
-import {act} from "react-dom/test-utils";
+import axios from 'axios'
+import { act } from "react-dom/test-utils"
+import { Mustachio } from "./mustachios/mustachio"
 
 function flushPromises(): Promise<any> {
-  return new Promise(resolve => setImmediate(resolve));
+  return new Promise(resolve => setImmediate(resolve))
 }
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('<App />', () => {
   it('displays a name (smoke test)', () => {
@@ -33,18 +34,26 @@ describe('<App />', () => {
     })
 
     it('can submit the form', async () => {
-      mockedAxios.get.mockResolvedValue({ data: "hello from axios" });
+      mockedAxios.post.mockResolvedValue({ data: { firstName: "mustachio" } });
 
       const { getByTestId, getByText } = render(<App/>)
       const inputEl = getByTestId('sticky-text-input') as HTMLInputElement
 
-      inputEl.value = 'just some text'
+      inputEl.value = 'mustachio'
 
       fireEvent.click(getByTestId('submit-button'))
 
-      await act(flushPromises);
+      await act(flushPromises)
 
-      expect(getByText("hello from axios", {exact: false})).toBeInTheDocument();
+      const myMustachio: Mustachio = {
+        firstName: 'mustachio'
+      }
+
+      expect(getByText("hello from the backend: mustachio", { exact: false })).toBeInTheDocument()
+      expect(mockedAxios.post).toHaveBeenCalledWith(
+        "/api/mustachios",
+        myMustachio,
+      )
     })
   })
 })

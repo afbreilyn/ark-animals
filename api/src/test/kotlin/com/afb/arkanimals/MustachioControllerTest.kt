@@ -33,7 +33,7 @@ class MustachioControllerTest {
     fun `returns a list of mustachios by name`() {
         val mustachio = Mustachio("walterino")
         val allMustachios = arrayOf(mustachio).asList()
-        given(mustachioService.findAllByFirstname("walterino"))
+        given(mustachioService.findAllByFirstName("walterino"))
                 .willReturn(allMustachios)
 
         mvc.perform(
@@ -42,7 +42,7 @@ class MustachioControllerTest {
         )
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[*].firstname").value("walterino"))
+                .andExpect(jsonPath("$[*].firstName").value("walterino"))
     }
 
     @Test
@@ -60,8 +60,8 @@ class MustachioControllerTest {
         )
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].firstname").value("walterino"))
-                .andExpect(jsonPath("$[1].firstname").value("anne"))
+                .andExpect(jsonPath("$[0].firstName").value("walterino"))
+                .andExpect(jsonPath("$[1].firstName").value("anne"))
 
         reset(mustachioService);
     }
@@ -78,7 +78,7 @@ class MustachioControllerTest {
                 .content(toJson(mustachio))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstname").value("margo"))
+                .andExpect(jsonPath("$.firstName").value("margo"))
 
         verify(mustachioService, VerificationModeFactory.times(1)).save(myAny(Mustachio::class.java));
         reset(mustachioService);

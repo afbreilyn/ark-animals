@@ -7,6 +7,6 @@ import javax.persistence.Id
 
 @Entity
 class Mustachio(
-    var firstname: String,
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
+        var firstName: String,
+        @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
 )

@@ -32,7 +32,7 @@ class MustachioRepositoryTest {
         entityManager.persist(mustachio2)
         entityManager.flush()
 
-        val found = mustachioRepository.findAllByFirstname("meow name")
+        val found = mustachioRepository.findAllByFirstName("meow name")
         assertThat(found.first()).isEqualTo(mustachio)
     }
 

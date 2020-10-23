@@ -1,15 +1,18 @@
 import React, { FormEvent, useState } from 'react'
 import './App.css'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 export const App = () => {
   const [greeting, setGreeting] = useState("")
 
   const mySubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    axios.get('/api/someRandomEndpoint')
-      .then((response: AxiosResponse<string>) => {
-        setGreeting(response.data)
+    const els = e.currentTarget.elements
+    axios.post('/api/mustachios', {
+      firstName: (els.namedItem('sticky-text') as HTMLInputElement).value
+    })
+      .then((response) => {
+        setGreeting("hello from the backend: " + response.data.firstName)
       })
   }
 
@@ -20,6 +23,7 @@ export const App = () => {
         <label htmlFor="sticky-text">Sticky note text</label>
         <input
           id="sticky-text"
+          name="sticky-text"
           data-testid="sticky-text-input"
         />
         <button type="submit" data-testid="submit-button">Submit</button>
