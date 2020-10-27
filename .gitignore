@@ -33,3 +33,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### static files ###
+/web/src/main/resources/static/*
+/api/src/main/resources/static/*
