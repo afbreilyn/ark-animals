@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import MustachioForm from "./mustachios/mustachio-form";
+import MustachioForm from "./mustachios/MustachioForm";
 
 export const App = () => {
   const [greeting, setGreeting] = useState("");

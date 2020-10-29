@@ -26,14 +26,7 @@ describe('<App />', () => {
       expect(queryByTestId('new-card-form')).toBeTruthy();
     });
 
-    it('displays a text input and label', () => {
-      const { getByLabelText, getByTestId } = render(<App/>);
-
-      expect(getByLabelText('Sticky note text')).toBeInTheDocument();
-      expect(getByTestId('sticky-text-input')).toBeTruthy();
-    });
-
-    it('can submit the form', async () => {
+    it('can displays the returned value from the form', async () => {
       mockedAxios.post.mockResolvedValue({ data: { firstName: "mustachio" } });
 
       const { getByTestId, getByText } = render(<App/>);
@@ -45,15 +38,7 @@ describe('<App />', () => {
 
       await act(flushPromises);
 
-      const myMustachio: Mustachio = {
-        firstName: 'mustachio'
-      };
-
       expect(getByText("hello from the backend: mustachio", { exact: false })).toBeInTheDocument();
-      expect(mockedAxios.post).toHaveBeenCalledWith(
-        "/api/mustachios",
-        myMustachio,
-      );
     });
   });
 });
