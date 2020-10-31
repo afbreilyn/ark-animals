@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import axios from 'axios';
 import { act } from "react-dom/test-utils";
@@ -22,14 +22,13 @@ describe('<MustachioForm />', () => {
     expect(getByTestId('sticky-text-input')).toBeTruthy();
   });
 
-  it('can submit the form', async () => {
+  it('can submit and clear the form', async () => {
     mockedAxios.post.mockResolvedValue({ data: { firstName: "mustachio" } });
 
-    const { getByTestId, getByText } = render(<MustachioForm afterwards={afterwards}/>);
-    const inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
+    const { getByTestId } = render(<MustachioForm afterwards={afterwards}/>);
+    let inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
 
-    inputEl.value = 'mustachio';
-
+    fireEvent.change(inputEl, { target: { value: 'mustachio' } });
     fireEvent.click(getByTestId('submit-button'));
 
     await act(flushPromises);
@@ -42,7 +41,6 @@ describe('<MustachioForm />', () => {
       "/api/mustachios",
       myMustachio,
     );
-
-    expect(afterwards).toHaveBeenCalledWith('hello from the backend: mustachio');
+    expect(afterwards).toHaveBeenCalledWith(myMustachio);
   });
 });

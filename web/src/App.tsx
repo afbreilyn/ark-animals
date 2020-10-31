@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import MustachioForm from "./mustachios/MustachioForm";
+import { Mustachio } from "./mustachios/mustachio";
+import axios, { AxiosResponse } from "axios";
+
 
 export const App = () => {
-  const [greeting, setGreeting] = useState("");
+  const [mustachioList, setMustachioList] = useState([] as Mustachio[]);
+
+  const setDatMustachio = ((meow: Mustachio) => {
+    setMustachioList([...mustachioList, meow]);
+  })
+
+  useEffect(() => {
+    axios.get('/api/mustachios')
+      .then((response: AxiosResponse<Mustachio[]>) => {
+        setMustachioList(response.data);
+      });
+  }, []);
 
   return (
     <div className="App">
       <h1>cards!</h1>
       <MustachioForm
-        afterwards={setGreeting}
+        afterwards={setDatMustachio}
       />
-      <h1>
-        {greeting}
-      </h1>
+      <div data-testid="mustachio-list">
+        {
+          mustachioList.map(mustachio => (
+            <div key={mustachio.firstName}>
+              {mustachio.firstName}
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 };
