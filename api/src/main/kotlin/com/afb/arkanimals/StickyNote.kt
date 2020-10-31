@@ -6,7 +6,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-class Mustachio(
-        var firstName: String,
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
+class StickyNote(
+    var content: String,
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
 )

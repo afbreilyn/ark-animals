@@ -15,8 +15,8 @@ export const StickyNoteForm = ({
     e.persist();
 
     const els = e.currentTarget.elements;
-    axios.post('/api/mustachios', {
-      firstName: (els.namedItem('sticky-text') as HTMLInputElement).value
+    axios.post('/api/sticky-notes', {
+      content: (els.namedItem('sticky-text') as HTMLInputElement).value
     })
       .then((response) => {
         (e.target as HTMLFormElement).reset();

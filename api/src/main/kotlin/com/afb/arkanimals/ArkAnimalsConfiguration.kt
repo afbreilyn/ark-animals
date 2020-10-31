@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration
 class ArkAnimalsConfiguration {
 
     @Bean
-    fun databaseInitializer(mustachioRepository: MustachioRepository) = ApplicationRunner {
-//        mustachioRepository.save(
-//                Mustachio("general kenobi")
+    fun databaseInitializer(stickyNoteRepository: StickyNoteRepository) = ApplicationRunner {
+//        stickyNoteRepository.save(
+//                StickyNote("general kenobi")
 //        )
     }
 }

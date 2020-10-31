@@ -21,67 +21,67 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner::class)
-@WebMvcTest(MustachioController::class)
-class MustachioControllerTest {
+@WebMvcTest(StickyNoteController::class)
+class StickyNoteControllerTest {
     @Autowired
     lateinit var mvc: MockMvc
 
     @MockBean
-    lateinit var mustachioService: MustachioService
+    lateinit var stickyNoteService: StickyNoteService
 
     @Test
     fun `returns a list of mustachios by name`() {
-        val mustachio = Mustachio("walterino")
-        val allMustachios = arrayOf(mustachio).asList()
-        given(mustachioService.findAllByFirstName("walterino"))
-                .willReturn(allMustachios)
+        val stickyNote = StickyNote("walterino")
+        val allStickyNotes = arrayOf(stickyNote).asList()
+        given(stickyNoteService.findAllByContent("walterino"))
+                .willReturn(allStickyNotes)
 
         mvc.perform(
-                get("/api/mustachios/walterino")
+                get("/api/sticky-notes/walterino")
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[*].firstName").value("walterino"))
+                .andExpect(jsonPath("$[*].content").value("walterino"))
     }
 
     @Test
-    fun `returns all mustachios`() {
-        val mustachio1 = Mustachio("walterino")
-        val mustachio2 = Mustachio("anne")
-        val allMustachios = arrayOf(mustachio1, mustachio2).asList()
+    fun `returns all sticky notes`() {
+        val stickyNote1 = StickyNote("walterino")
+        val stickyNote2 = StickyNote("anne")
+        val allStickyNotes = arrayOf(stickyNote1, stickyNote2).asList()
 
-        given(mustachioService.findAll())
-                .willReturn(allMustachios)
+        given(stickyNoteService.findAll())
+                .willReturn(allStickyNotes)
 
         mvc.perform(
-                get("/api/mustachios")
+                get("/api/sticky-notes")
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].firstName").value("walterino"))
-                .andExpect(jsonPath("$[1].firstName").value("anne"))
+                .andExpect(jsonPath("$[0].content").value("walterino"))
+                .andExpect(jsonPath("$[1].content").value("anne"))
 
-        reset(mustachioService);
+        reset(stickyNoteService);
     }
 
     @Test
-    fun `given valid params creates a mustachio`() {
-        val mustachio = Mustachio("margo")
+    fun `given valid params creates a sticky note`() {
+        val stickyNote = StickyNote("margo")
 
-        given(mustachioService.save(myAny(Mustachio::class.java)))
-                .willReturn(mustachio)
+        given(stickyNoteService.save(myAny(StickyNote::class.java)))
+                .willReturn(stickyNote)
 
-        mvc.perform(post("/api/mustachios")
+        mvc.perform(post("/api/sticky-notes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(mustachio))
+                .content(toJson(stickyNote))
         )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstName").value("margo"))
+                .andExpect(jsonPath("$.content").value("margo"))
 
-        verify(mustachioService, VerificationModeFactory.times(1)).save(myAny(Mustachio::class.java));
-        reset(mustachioService);
+        verify(stickyNoteService, VerificationModeFactory.times(1)).save(myAny(StickyNote::class.java));
+        reset(stickyNoteService);
     }
 
     fun toJson(`object`: Any?): ByteArray {

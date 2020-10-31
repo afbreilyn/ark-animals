@@ -13,7 +13,7 @@ export const App = () => {
   })
 
   useEffect(() => {
-    axios.get('/api/mustachios')
+    axios.get('/api/sticky-notes')
       .then((response: AxiosResponse<StickyNote[]>) => {
         setStickyNoteList(response.data);
       })

@@ -26,57 +26,57 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
 @AutoConfigureTestDatabase
-class MustachioIntegrationTest {
+class StickyNoteIntegrationTest {
     @Autowired
     lateinit var mvc: MockMvc
 
     @Autowired
-    lateinit var mustachioRepository: MustachioRepository
+    lateinit var stickyNoteRepository: StickyNoteRepository
 
     @After
     fun resetDb() {
-        mustachioRepository.deleteAll()
+        stickyNoteRepository.deleteAll()
     }
 
     @Test
     fun `returns from all`() {
-        val mustachio = Mustachio("aaron")
-        mustachioRepository.saveAndFlush(mustachio)
+        val stickyNote = StickyNote("aaron")
+        stickyNoteRepository.saveAndFlush(stickyNote)
 
         mvc.perform(
-                MockMvcRequestBuilders.get("/api/mustachios/aaron")
+                MockMvcRequestBuilders.get("/api/sticky-notes/aaron")
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstName").value("aaron"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("aaron"))
 
     }
 
     @Test
     fun `findAll works`() {
-        val mustachio = Mustachio("cedar")
-        mustachioRepository.saveAndFlush(mustachio)
+        val mustachio = StickyNote("cedar")
+        stickyNoteRepository.saveAndFlush(mustachio)
 
         mvc.perform(
-                MockMvcRequestBuilders.get("/api/mustachios")
+                MockMvcRequestBuilders.get("/api/sticky-notes")
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].firstName").value("cedar"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("cedar"))
     }
 
     @Test
     fun `saves and returns one of the mustachios`() {
-        val mustachio = Mustachio("anne")
+        val mustachio = StickyNote("anne")
 
         println(toJson(mustachio))
 
-        mvc.perform(post("/api/mustachios").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
+        mvc.perform(post("/api/sticky-notes").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
 
-        val found: List<Mustachio> = mustachioRepository.findAll()
-        assertThat(found.first().firstName).isEqualTo("anne")
+        val found: List<StickyNote> = stickyNoteRepository.findAll()
+        assertThat(found.first().content).isEqualTo("anne")
     }
 
     fun toJson(`object`: Any?): ByteArray {

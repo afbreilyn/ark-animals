@@ -43,8 +43,8 @@ describe('<StickyNoteForm />', () => {
     };
 
     expect(mockedAxios.post).toHaveBeenCalledWith(
-      "/api/mustachios",
-      { firstName: myStickyNote.content },
+      "/api/sticky-notes",
+      myStickyNote,
     );
     expect(afterwards).toHaveBeenCalledWith(myStickyNote);
   });
