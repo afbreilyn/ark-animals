@@ -19,9 +19,9 @@ export const MustachioForm = ({
       firstName: (els.namedItem('sticky-text') as HTMLInputElement).value
     })
       .then((response) => {
+        (e.target as HTMLFormElement).reset();
+        // ^ need to TDD this
         afterwards(response.data);
-        (e.currentTarget as HTMLFormElement).reset();
-        // ^ need to TDD this.... i can't get it to work :(
       })
       .catch((err) => {
         console.log(err);

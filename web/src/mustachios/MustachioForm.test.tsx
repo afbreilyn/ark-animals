@@ -10,11 +10,16 @@ function flushPromises(): Promise<any> {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+jest.spyOn(console, 'log');
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const afterwards = jest.fn();
 
 describe('<MustachioForm />', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('displays a text input and label', () => {
     const { getByLabelText, getByTestId } = render(<MustachioForm afterwards={afterwards}/>);
 
@@ -42,5 +47,26 @@ describe('<MustachioForm />', () => {
       myMustachio,
     );
     expect(afterwards).toHaveBeenCalledWith(myMustachio);
+  });
+
+  it('logs an error if one is returned', async () => {
+    const err = {
+      status: 422,
+      response: { message: 'er mer gerd!' },
+    };
+
+    mockedAxios.post.mockRejectedValueOnce(err);
+
+    const { getByTestId } = render(<MustachioForm afterwards={afterwards}/>);
+    let inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
+
+    fireEvent.change(inputEl, { target: { value: 'mustachio' } });
+    fireEvent.click(getByTestId('submit-button'));
+
+    await act(flushPromises);
+
+    expect(afterwards).not.toHaveBeenCalled();
+
+    expect(console.log).toHaveBeenCalledWith(err);
   });
 });

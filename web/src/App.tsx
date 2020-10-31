@@ -16,6 +16,9 @@ export const App = () => {
     axios.get('/api/mustachios')
       .then((response: AxiosResponse<Mustachio[]>) => {
         setMustachioList(response.data);
+      })
+      .catch((e) => {
+        console.log(`error in get call!: ${e}`);
       });
   }, []);
 
