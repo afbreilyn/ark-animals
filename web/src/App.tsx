@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import MustachioForm from "./mustachios/MustachioForm";
-import { Mustachio } from "./mustachios/mustachio";
+import StickyNoteForm from "./sticky-notes/StickyNoteForm";
+import { StickyNote } from "./sticky-notes/sticky-note";
 import axios, { AxiosResponse } from "axios";
 
 
 export const App = () => {
-  const [mustachioList, setMustachioList] = useState([] as Mustachio[]);
+  const [stickyNoteList, setStickyNoteList] = useState([] as StickyNote[]);
 
-  const setDatMustachio = ((meow: Mustachio) => {
-    setMustachioList([...mustachioList, meow]);
+  const addStickyNoteToState = ((newStickyNote: StickyNote) => {
+    setStickyNoteList([...stickyNoteList, newStickyNote]);
   })
 
   useEffect(() => {
     axios.get('/api/mustachios')
-      .then((response: AxiosResponse<Mustachio[]>) => {
-        setMustachioList(response.data);
+      .then((response: AxiosResponse<StickyNote[]>) => {
+        setStickyNoteList(response.data);
       })
       .catch((e) => {
         console.log(`error in get call!: ${e}`);
@@ -25,14 +25,14 @@ export const App = () => {
   return (
     <div className="App">
       <h1>cards!</h1>
-      <MustachioForm
-        afterwards={setDatMustachio}
+      <StickyNoteForm
+        afterwards={addStickyNoteToState}
       />
-      <div data-testid="mustachio-list">
+      <div data-testid="sticky-note-list">
         {
-          mustachioList.map(mustachio => (
-            <div key={mustachio.firstName}>
-              {mustachio.firstName}
+          stickyNoteList.map(stickyNote => (
+            <div key={stickyNote.content}>
+              {stickyNote.content}
             </div>
           ))
         }

@@ -35,7 +35,7 @@ describe('<App />', () => {
     });
 
     it('can displays the returned value from the form', async () => {
-      mockedAxios.post.mockResolvedValue({ data: { firstName: "mustachio" } });
+      mockedAxios.post.mockResolvedValue({ data: { content: "mustachio" } });
 
       const { getByTestId, getByText } = render(<App/>);
       await act(flushPromises);
@@ -51,38 +51,38 @@ describe('<App />', () => {
     });
   });
 
-  describe('the past mustachios', () => {
-    it('displays a list of past mustachios', async () => {
+  describe('the past sticky notes', () => {
+    it('displays a list of past sticky notes', async () => {
       mockedAxios.get.mockResolvedValue({
         data: [
-          { firstName: 'mando' },
-          { firstName: 'baby yoda' },
+          { content: 'mando' },
+          { content: 'baby yoda' },
         ]
       });
 
       const { queryByTestId } = render(<App/>);
       await act(flushPromises);
 
-      const mustachioList = queryByTestId('mustachio-list') as HTMLElement;
+      const stickyNoteList = queryByTestId('sticky-note-list') as HTMLElement;
 
-      expect(mustachioList).toBeTruthy();
-      expect(mustachioList).not.toBeEmpty();
+      expect(stickyNoteList).toBeTruthy();
+      expect(stickyNoteList).not.toBeEmpty();
 
-      const listOfMustachios = within(mustachioList);
+      const listOfStickyNotes = within(stickyNoteList);
 
-      expect(listOfMustachios.getByText("mando", { exact: false })).toBeInTheDocument();
-      expect(listOfMustachios.getByText("baby yoda", { exact: false })).toBeInTheDocument();
+      expect(listOfStickyNotes.getByText("mando", { exact: false })).toBeInTheDocument();
+      expect(listOfStickyNotes.getByText("baby yoda", { exact: false })).toBeInTheDocument();
     });
 
-    describe('after making a new mustachio', () => {
-      it('adds the mustachio to the list', async () => {
+    describe('after making a new sticky note', () => {
+      it('adds the sticky note to the list', async () => {
         mockedAxios.get.mockResolvedValue({
           data: [
-            { firstName: 'mando' },
-            { firstName: 'baby yoda' },
+            { content: 'mando' },
+            { content: 'baby yoda' },
           ]
         });
-        mockedAxios.post.mockResolvedValue({ data: { firstName: "ahsoka tano" } });
+        mockedAxios.post.mockResolvedValue({ data: { content: "ahsoka tano" } });
 
         const { queryByTestId, getByTestId } = render(<App/>);
         await act(flushPromises);
@@ -94,11 +94,11 @@ describe('<App />', () => {
 
         await act(flushPromises);
 
-        const listOfMustachios = within(queryByTestId('mustachio-list') as HTMLElement);
+        const listOfStickyNotes = within(queryByTestId('sticky-note-list') as HTMLElement);
 
-        expect(listOfMustachios.getByText("mando", { exact: false })).toBeInTheDocument();
-        expect(listOfMustachios.getByText("baby yoda", { exact: false })).toBeInTheDocument();
-        expect(listOfMustachios.getByText("ahsoka tano", { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText("mando", { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText("baby yoda", { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText("ahsoka tano", { exact: false })).toBeInTheDocument();
       });
     });
   });

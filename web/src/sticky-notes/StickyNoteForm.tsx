@@ -1,14 +1,14 @@
 import React, { FormEvent } from "react";
 import axios from "axios";
-import { Mustachio } from "./mustachio";
+import { StickyNote } from "./sticky-note";
 
-interface MustachioFormProps {
-  afterwards: (arg: Mustachio) => void
+interface StickyNoteFormProps {
+  afterwards: (arg: StickyNote) => void
 }
 
-export const MustachioForm = ({
+export const StickyNoteForm = ({
                                 afterwards
-                              }: MustachioFormProps
+                              }: StickyNoteFormProps
 ) => {
   const mySubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -46,4 +46,4 @@ export const MustachioForm = ({
   );
 };
 
-export default MustachioForm;
+export default StickyNoteForm;
