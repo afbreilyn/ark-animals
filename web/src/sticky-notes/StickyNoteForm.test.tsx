@@ -47,6 +47,7 @@ describe('<StickyNoteForm />', () => {
       myStickyNote,
     );
     expect(afterwards).toHaveBeenCalledWith(myStickyNote);
+    expect(inputEl.value).toBe("");
   });
 
   it('logs an error if one is returned', async () => {

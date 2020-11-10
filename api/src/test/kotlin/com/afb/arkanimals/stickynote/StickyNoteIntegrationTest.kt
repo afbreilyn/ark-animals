@@ -1,5 +1,6 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
+import com.afb.arkanimals.ArkAnimalsApplication
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.assertj.core.api.Assertions.assertThat
@@ -24,8 +25,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         classes = [ArkAnimalsApplication::class])
 @AutoConfigureMockMvc
-@EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
-@AutoConfigureTestDatabase
+//@EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
+//@AutoConfigureTestDatabase
 class StickyNoteIntegrationTest {
     @Autowired
     lateinit var mvc: MockMvc

@@ -1,4 +1,4 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
 interface StickyNoteService {
     fun findAllByContent(content: String): Iterable<StickyNote>

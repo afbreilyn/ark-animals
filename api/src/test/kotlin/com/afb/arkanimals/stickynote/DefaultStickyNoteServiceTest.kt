@@ -1,4 +1,4 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

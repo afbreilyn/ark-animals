@@ -1,4 +1,4 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper

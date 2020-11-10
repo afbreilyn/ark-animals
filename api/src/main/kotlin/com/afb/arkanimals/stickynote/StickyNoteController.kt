@@ -1,4 +1,4 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

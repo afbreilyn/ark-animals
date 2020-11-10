@@ -1,4 +1,4 @@
-package com.afb.arkanimals
+package com.afb.arkanimals.stickynote
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -16,7 +16,7 @@ class StickyNoteRepositoryTest {
     lateinit var stickyNoteRepository: StickyNoteRepository
 
     @Test
-    fun `returns a Mustachio when the id exists`() {
+    fun `returns a StickyNote when the id exists`() {
         val stickyNote = StickyNote("meow")
         entityManager.persist(stickyNote)
         entityManager.flush()
