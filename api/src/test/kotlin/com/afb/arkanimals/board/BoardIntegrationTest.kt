@@ -1,4 +1,4 @@
-package com.afb.arkanimals.stickynote
+package com.afb.arkanimals.board
 
 import com.afb.arkanimals.ArkAnimalsApplication
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -14,7 +14,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -23,57 +22,47 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     classes = [ArkAnimalsApplication::class])
 @AutoConfigureMockMvc
-//@EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
-//@AutoConfigureTestDatabase
-class StickyNoteIntegrationTest {
+class BoardIntegrationTest {
     @Autowired
     lateinit var mvc: MockMvc
 
     @Autowired
-    lateinit var stickyNoteRepository: StickyNoteRepository
+    lateinit var boardRepository: BoardRepository
 
     @After
     fun resetDb() {
-        stickyNoteRepository.deleteAll()
+        boardRepository.deleteAll()
     }
 
     @Test
-    fun `returns from all`() {
-        val stickyNote = StickyNote("aaron")
-        stickyNoteRepository.saveAndFlush(stickyNote)
+    fun `fetches a board with no sticky notes`() {
+        val myCoolBoard = Board(
+            title = "a very cool board",
+            stickyNotes = emptyList()
+        )
 
+        boardRepository.saveAndFlush(myCoolBoard)
+
+        // NB: the generated value of the id isn't overrideable, thus we can hardcode it to be '2'
         mvc.perform(
-            MockMvcRequestBuilders.get("/api/sticky-notes/aaron")
+            get("/api/boards/2")
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("aaron"))
-
+            .andExpect(MockMvcResultMatchers.jsonPath("title").value("a very cool board"))
     }
 
     @Test
-    fun `findAll works`() {
-        val mustachio = StickyNote("cedar")
-        stickyNoteRepository.saveAndFlush(mustachio)
+    fun `saves and returns a board`() {
+        val mustachio = Board("pinewood")
 
-        mvc.perform(
-            get("/api/sticky-notes")
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("cedar"))
-    }
+        mvc.perform(MockMvcRequestBuilders.post("/api/boards")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(toJson(mustachio)))
 
-    @Test
-    fun `saves and returns a sticky note`() {
-        val mustachio = StickyNote("anne")
-
-        mvc.perform(post("/api/sticky-notes").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
-
-        val found: List<StickyNote> = stickyNoteRepository.findAll()
-        assertThat(found.first().content).isEqualTo("anne")
+        val found: List<Board> = boardRepository.findAll()
+        assertThat(found.first().title).isEqualTo("pinewood")
+        assertThat(found.size).isEqualTo(1)
     }
 
     fun toJson(`object`: Any?): ByteArray {

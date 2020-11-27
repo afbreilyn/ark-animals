@@ -16,7 +16,7 @@ class DefaultStickyNoteServiceTest {
     @TestConfiguration
     class DefaultStickyNoteServiceTestContextConfiguration {
         @Bean
-        fun mustachioService(): StickyNoteService {
+        fun returnDefaultStickyNoteService(): StickyNoteService {
             return DefaultStickyNoteService()
         }
     }
@@ -29,8 +29,8 @@ class DefaultStickyNoteServiceTest {
 
     @Before
     fun setUp() {
-        var tjStickyNote = StickyNote("TJ", 2L)
-        var allStickyNotes = arrayOf(tjStickyNote).toList()
+        val tjStickyNote = StickyNote("TJ", 2L)
+        val allStickyNotes = arrayOf(tjStickyNote).toList()
 
         Mockito.`when`(stickyNoteRepository.findAllByContent("TJ"))
                 .thenReturn(allStickyNotes)
@@ -55,13 +55,13 @@ class DefaultStickyNoteServiceTest {
     }
 
     @Test
-    fun `saves`() {
+    fun `saves and return a stickynote`() {
         val shouldBeSavedAndReturned = StickyNote("luke")
 
         Mockito.`when`(stickyNoteRepository.save(shouldBeSavedAndReturned))
                 .thenReturn(shouldBeSavedAndReturned)
 
-        val returnedStickyNote: StickyNote = stickyNoteRepository.save(shouldBeSavedAndReturned)
+        val returnedStickyNote: StickyNote = stickyNoteService.save(shouldBeSavedAndReturned)
 
         assertThat(returnedStickyNote).isEqualTo(shouldBeSavedAndReturned)
     }

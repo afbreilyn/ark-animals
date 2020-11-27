@@ -30,7 +30,7 @@ class StickyNoteControllerTest {
     lateinit var stickyNoteService: StickyNoteService
 
     @Test
-    fun `returns a list of mustachios by name`() {
+    fun `returns a list of sticky notes by name`() {
         val stickyNote = StickyNote("walterino")
         val allStickyNotes = arrayOf(stickyNote).asList()
         given(stickyNoteService.findAllByContent("walterino"))
@@ -80,8 +80,8 @@ class StickyNoteControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.content").value("margo"))
 
-        verify(stickyNoteService, VerificationModeFactory.times(1)).save(myAny(StickyNote::class.java));
-        reset(stickyNoteService);
+        verify(stickyNoteService, VerificationModeFactory.times(1)).save(myAny(StickyNote::class.java))
+        reset(stickyNoteService)
     }
 
     fun toJson(`object`: Any?): ByteArray {

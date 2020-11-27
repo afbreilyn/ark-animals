@@ -1,11 +1,12 @@
 package com.afb.arkanimals.stickynote
 
-import com.afb.arkanimals.board.Board
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
 
 @Entity
 class StickyNote(
     var content: String,
-//    @ManyToOne var board: Board,
     @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
 )
