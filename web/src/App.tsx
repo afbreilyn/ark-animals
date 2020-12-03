@@ -3,9 +3,10 @@ import './App.css';
 import StickyNoteForm from "./sticky-notes/StickyNoteForm";
 import { StickyNote } from "./sticky-notes/sticky-note";
 import axios, { AxiosResponse } from "axios";
+import { RouteComponentProps } from "@reach/router";
 
 
-export const App = () => {
+export const App = (props: RouteComponentProps) => {
   const [stickyNoteList, setStickyNoteList] = useState([] as StickyNote[]);
 
   const addStickyNoteToState = ((newStickyNote: StickyNote) => {
