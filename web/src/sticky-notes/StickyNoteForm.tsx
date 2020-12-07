@@ -20,7 +20,6 @@ export const StickyNoteForm = ({
     })
       .then((response) => {
         (e.target as HTMLFormElement).reset();
-        // ^ need to TDD this
         afterwards(response.data);
       })
       .catch((err) => {
@@ -28,13 +27,11 @@ export const StickyNoteForm = ({
       });
   };
 
-
   return (
     <form
-      data-testid="new-card-form"
+      data-testid="new-stickynote-form"
       onSubmit={e => mySubmit(e)}
     >
-
       <label htmlFor="sticky-text">Sticky note text</label>
       <input
         id="sticky-text"
