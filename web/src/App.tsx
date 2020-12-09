@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import { RouteComponentProps } from "@reach/router";
 
 
-export const App = (_: RouteComponentProps) => {
+export const App = (props: any) => {
   return (
     <div className="App">
-      <h1>Make a board to put sticky notes on!</h1>
+      {props.children}
+      {/*<h1>Make a board to put sticky notes on!</h1>*/}
+
+      {/*<BoardForm/>*/}
     </div>
   );
 };

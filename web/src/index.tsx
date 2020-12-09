@@ -4,12 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Router } from '@reach/router';
+import BoardPage from "./boards/BoardPage";
+import Home from "./Home";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App default path="/" />
-    </Router>
+    <App>
+      <Router>
+        <Home default path="/"/>
+        <BoardPage path="/boards/:boardId"/>
+      </Router>
+    </App>
   </React.StrictMode>,
   document.getElementById('root')
 );

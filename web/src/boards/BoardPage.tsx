@@ -23,7 +23,7 @@ export const BoardPage = ({
       .catch((e) => {
         console.log(`error in finding that board: ${e}`);
       });
-  }, []);
+  }, [boardId]);
 
   const addStickyNoteToState = ((newStickyNote: StickyNote) => {
     setStickyNoteList([...stickyNoteList, newStickyNote]);
