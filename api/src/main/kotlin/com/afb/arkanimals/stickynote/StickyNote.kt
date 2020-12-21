@@ -8,5 +8,6 @@ import javax.persistence.Id
 @Entity
 class StickyNote(
     var content: String,
+    var boardId: Long,
     @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long? = null
 )

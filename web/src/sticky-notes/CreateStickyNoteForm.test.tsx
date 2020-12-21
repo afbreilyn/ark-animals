@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 
 import axios from 'axios';
 import { act } from "react-dom/test-utils";
-import StickyNoteForm from "./StickyNoteForm";
+import CreateStickyNoteForm from "./CreateStickyNoteForm";
 import { StickyNote } from "./sticky-note";
 
 function flushPromises(): Promise<any> {
@@ -15,33 +15,32 @@ jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const afterwards = jest.fn();
 
-describe('<StickyNoteForm />', () => {
+describe('<CreateStickyNoteForm />', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('displays a text input and label', () => {
-    const { getByLabelText, getByTestId } = render(<StickyNoteForm afterwards={afterwards}/>);
+    const { getByLabelText, getByTestId } = render(<CreateStickyNoteForm afterwards={afterwards} boardId="whatever"/>);
 
     expect(getByLabelText('Sticky note text')).toBeInTheDocument();
     expect(getByTestId('sticky-text-input')).toBeTruthy();
   });
 
   it('can submit and clear the form', async () => {
-    mockedAxios.post.mockResolvedValue({ data: { content: "mustachio" } });
+    const myStickyNote: StickyNote = {
+      content: 'mustachio',
+      boardId: 'board-id',
+    };
+    mockedAxios.post.mockResolvedValue({ data: myStickyNote });
 
-    const { getByTestId } = render(<StickyNoteForm afterwards={afterwards}/>);
+    const { getByTestId } = render(<CreateStickyNoteForm afterwards={afterwards} boardId="board-id"/>);
     let inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
 
     fireEvent.change(inputEl, { target: { value: 'mustachio' } });
     fireEvent.click(getByTestId('submit-button'));
 
     await act(flushPromises);
-
-    const myStickyNote: StickyNote = {
-      content: 'mustachio'
-    };
-
     expect(mockedAxios.post).toHaveBeenCalledWith(
       "/api/sticky-notes",
       myStickyNote,
@@ -58,7 +57,7 @@ describe('<StickyNoteForm />', () => {
 
     mockedAxios.post.mockRejectedValueOnce(err);
 
-    const { getByTestId } = render(<StickyNoteForm afterwards={afterwards}/>);
+    const { getByTestId } = render(<CreateStickyNoteForm afterwards={afterwards} boardId="swag"/>);
     let inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
 
     fireEvent.change(inputEl, { target: { value: 'mustachio' } });

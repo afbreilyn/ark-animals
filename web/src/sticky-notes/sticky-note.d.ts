@@ -1,3 +1,4 @@
 export interface StickyNote {
-  content: string
+  content: string,
+  boardId: string,
 }

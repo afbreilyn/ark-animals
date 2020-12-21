@@ -4,33 +4,28 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.data.repository.findByIdOrNull
 
 @DataJpaTest
 class StickyNoteRepositoryTest {
     @Autowired
-    lateinit var entityManager: TestEntityManager
-
-    @Autowired
     lateinit var stickyNoteRepository: StickyNoteRepository
 
     @Test
     fun `returns a StickyNote when the id exists`() {
-        val stickyNote = StickyNote("meow")
-        entityManager.persist(stickyNote)
-        entityManager.flush()
+        val stickyNote = StickyNote(content = "meow", boardId = 1L)
+        stickyNoteRepository.save(stickyNote)
+
         val found = stickyNoteRepository.findByIdOrNull(stickyNote.id!!)
         assertThat(found).isEqualTo(stickyNote)
     }
 
     @Test
     fun `returns a sticky note when searching by content`() {
-        val stickyNote = StickyNote("meow name")
-        entityManager.persist(stickyNote)
-        val stickyNote2 = StickyNote("another name")
-        entityManager.persist(stickyNote2)
-        entityManager.flush()
+        val stickyNote = StickyNote(content = "meow name", boardId = 2L)
+        val stickyNote2 = StickyNote(content = "another name", boardId = 3L)
+        stickyNoteRepository.save(stickyNote)
+        stickyNoteRepository.save(stickyNote2)
 
         val found = stickyNoteRepository.findAllByContent("meow name")
         assertThat(found.first()).isEqualTo(stickyNote)
@@ -38,7 +33,7 @@ class StickyNoteRepositoryTest {
 
     @Test
     fun `saves and returns a stickyNote`() {
-        val stickyNote = StickyNote("bb8")
+        val stickyNote = StickyNote(content = "bb8", boardId = 4L)
         val found = stickyNoteRepository.save(stickyNote)
 
         assertThat(found).isEqualTo(stickyNote)

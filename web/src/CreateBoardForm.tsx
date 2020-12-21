@@ -2,7 +2,7 @@ import React, { FormEvent } from 'react';
 import { navigate } from "@reach/router";
 import axios from "axios";
 
-export const BoardForm = () => {
+export const CreateBoardForm = () => {
   const submitBoardForm = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     e.persist();
@@ -38,5 +38,5 @@ export const BoardForm = () => {
   );
 };
 
-export default BoardForm;
+export default CreateBoardForm;
 

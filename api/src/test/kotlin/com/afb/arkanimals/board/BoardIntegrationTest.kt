@@ -36,9 +36,8 @@ class BoardIntegrationTest {
 
     @Test
     fun `fetches a board with no sticky notes`() {
-        val myCoolBoard = Board(
-            title = "a very cool board",
-            stickyNotes = emptyList()
+        val myCoolBoard = BoardEntity(
+            title = "a very cool board"
         )
 
         boardRepository.saveAndFlush(myCoolBoard)
@@ -54,13 +53,13 @@ class BoardIntegrationTest {
 
     @Test
     fun `saves and returns a board`() {
-        val mustachio = Board("pinewood")
+        val mustachio = Board("pinewood", stickyNotes = emptyList())
 
         mvc.perform(MockMvcRequestBuilders.post("/api/boards")
             .contentType(MediaType.APPLICATION_JSON)
             .content(toJson(mustachio)))
 
-        val found: List<Board> = boardRepository.findAll()
+        val found: List<BoardEntity> = boardRepository.findAll()
         assertThat(found.first().title).isEqualTo("pinewood")
         assertThat(found.size).isEqualTo(1)
     }

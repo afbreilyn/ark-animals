@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { RouteComponentProps } from "@reach/router";
-import BoardForm from "./boards/BoardForm";
+import CreateBoardForm from "./CreateBoardForm";
 
 
 export const Home = (_: RouteComponentProps) => {
@@ -9,7 +9,7 @@ export const Home = (_: RouteComponentProps) => {
     <div className="App">
       <h1>Make a board to put sticky notes on!</h1>
 
-      <BoardForm/>
+      <CreateBoardForm/>
     </div>
   );
 };

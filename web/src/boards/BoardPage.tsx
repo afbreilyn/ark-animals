@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StickyNote } from "../sticky-notes/sticky-note";
 import axios, { AxiosResponse } from "axios";
 import { Board } from "./board";
-import StickyNoteForm from "../sticky-notes/StickyNoteForm";
+import CreateStickyNoteForm from "../sticky-notes/CreateStickyNoteForm";
 
 interface BoardPageProps extends RouteComponentProps {
   boardId?: string
@@ -32,8 +32,9 @@ export const BoardPage = ({
   return (
     <div>
       {board.title}
-      <StickyNoteForm
+      <CreateStickyNoteForm
         afterwards={addStickyNoteToState}
+        boardId={boardId!}
       />
 
       <div data-testid="sticky-note-list">

@@ -32,7 +32,7 @@ class BoardControllerTest {
 
     @Test
     fun `returns a board by id`() {
-        val board = Board(title = "board title", id = 42L)
+        val board = Board(title = "board title", id = 42L, stickyNotes = emptyList())
         val optionalBoard: Optional<Board> = Optional.of(board)
 
         given(boardService.findById(42L))
@@ -52,7 +52,7 @@ class BoardControllerTest {
 
     @Test
     fun `given valid params creates a board`() {
-        val board = Board("wooden")
+        val board = Board("wooden", stickyNotes = emptyList())
 
         given(boardService.save(myAny(Board::class.java)))
             .willReturn(board)

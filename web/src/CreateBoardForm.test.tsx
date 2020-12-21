@@ -3,8 +3,8 @@ import { fireEvent, render } from '@testing-library/react';
 
 import axios from 'axios';
 import { act } from "react-dom/test-utils";
-import BoardForm from "./BoardForm";
-import { Board } from "./board";
+import CreateBoardForm from "./CreateBoardForm";
+import { Board } from "./boards/board";
 import { navigate } from '@reach/router';
 
 function flushPromises(): Promise<any> {
@@ -19,13 +19,13 @@ jest.mock('@reach/router', () => ({
   navigate: jest.fn(),
 }));
 
-describe('<BoardForm />', () => {
+describe('<CreateBoardForm />', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('displays a text input and label', () => {
-    const { getByLabelText, getByTestId } = render(<BoardForm/>);
+    const { getByLabelText, getByTestId } = render(<CreateBoardForm/>);
 
     expect(getByLabelText('Make a board')).toBeInTheDocument();
     expect(getByTestId('board-title-input')).toBeTruthy();
@@ -40,7 +40,7 @@ describe('<BoardForm />', () => {
       }
     });
 
-    const { getByTestId } = render(<BoardForm/>);
+    const { getByTestId } = render(<CreateBoardForm/>);
     let inputEl = getByTestId('board-title-input') as HTMLInputElement;
 
     fireEvent.change(inputEl, { target: { value: 'razor crest' } });
@@ -70,7 +70,7 @@ describe('<BoardForm />', () => {
   //
   //   mockedAxios.post.mockRejectedValueOnce(err);
   //
-  //   const { getByTestId } = render(<StickyNoteForm afterwards={afterwards}/>);
+  //   const { getByTestId } = render(<CreateStickyNoteForm afterwards={afterwards}/>);
   //   let inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
   //
   //   fireEvent.change(inputEl, { target: { value: 'mustachio' } });

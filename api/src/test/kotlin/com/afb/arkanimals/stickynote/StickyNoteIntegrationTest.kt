@@ -39,7 +39,7 @@ class StickyNoteIntegrationTest {
 
     @Test
     fun `returns from all`() {
-        val stickyNote = StickyNote("aaron")
+        val stickyNote = StickyNote("aaron", 0L)
         stickyNoteRepository.saveAndFlush(stickyNote)
 
         mvc.perform(
@@ -49,12 +49,13 @@ class StickyNoteIntegrationTest {
             .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
             .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
             .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("aaron"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[*].boardId").value(0))
 
     }
 
     @Test
     fun `findAll works`() {
-        val mustachio = StickyNote("cedar")
+        val mustachio = StickyNote("cedar", 1L)
         stickyNoteRepository.saveAndFlush(mustachio)
 
         mvc.perform(
@@ -64,16 +65,18 @@ class StickyNoteIntegrationTest {
             .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
             .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
             .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("cedar"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[*].boardId").value(1))
     }
 
     @Test
     fun `saves and returns a sticky note`() {
-        val mustachio = StickyNote("anne")
+        val mustachio = StickyNote("anne", 2L)
 
         mvc.perform(post("/api/sticky-notes").contentType(MediaType.APPLICATION_JSON).content(toJson(mustachio)))
 
         val found: List<StickyNote> = stickyNoteRepository.findAll()
         assertThat(found.first().content).isEqualTo("anne")
+        assertThat(found.first().boardId).isEqualTo(2L)
     }
 
     fun toJson(`object`: Any?): ByteArray {

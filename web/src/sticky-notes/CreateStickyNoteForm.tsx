@@ -3,12 +3,14 @@ import axios from "axios";
 import { StickyNote } from "./sticky-note";
 
 interface StickyNoteFormProps {
-  afterwards: (arg: StickyNote) => void
+  afterwards: (arg: StickyNote) => void,
+  boardId: string
 }
 
-export const StickyNoteForm = ({
-                                afterwards
-                              }: StickyNoteFormProps
+export const CreateStickyNoteForm = ({
+                                       afterwards,
+                                       boardId,
+                                     }: StickyNoteFormProps
 ) => {
   const mySubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -16,7 +18,8 @@ export const StickyNoteForm = ({
 
     const els = e.currentTarget.elements;
     axios.post('/api/sticky-notes', {
-      content: (els.namedItem('sticky-text') as HTMLInputElement).value
+      content: (els.namedItem('sticky-text') as HTMLInputElement).value,
+      boardId: boardId,
     })
       .then((response) => {
         (e.target as HTMLFormElement).reset();
@@ -43,4 +46,4 @@ export const StickyNoteForm = ({
   );
 };
 
-export default StickyNoteForm;
+export default CreateStickyNoteForm;

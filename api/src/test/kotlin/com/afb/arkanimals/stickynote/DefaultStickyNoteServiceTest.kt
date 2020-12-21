@@ -29,7 +29,7 @@ class DefaultStickyNoteServiceTest {
 
     @Before
     fun setUp() {
-        val tjStickyNote = StickyNote("TJ", 2L)
+        val tjStickyNote = StickyNote(content = "TJ", id = 2L, boardId = 1L)
         val allStickyNotes = arrayOf(tjStickyNote).toList()
 
         Mockito.`when`(stickyNoteRepository.findAllByContent("TJ"))
@@ -56,7 +56,7 @@ class DefaultStickyNoteServiceTest {
 
     @Test
     fun `saves and return a stickynote`() {
-        val shouldBeSavedAndReturned = StickyNote("luke")
+        val shouldBeSavedAndReturned = StickyNote(content = "luke", boardId = 1L)
 
         Mockito.`when`(stickyNoteRepository.save(shouldBeSavedAndReturned))
                 .thenReturn(shouldBeSavedAndReturned)
