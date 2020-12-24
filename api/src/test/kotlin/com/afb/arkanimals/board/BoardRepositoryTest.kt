@@ -29,15 +29,6 @@ class BoardRepositoryTest {
         assertThat(foundBoard).isEqualTo(board)
     }
 
-//    @Test
-//    fun `returns an empty Board by its title`() {
-//        val board = Board("title", stickyNotes=emptyList())
-//        entityManager.persist(board)
-//        entityManager.flush()
-//        val foundBoard  = boardRepository.findByTitle("title")
-//        assertThat(foundBoard).isEqualTo(board)
-//    }
-
     @Test
     fun `saves and returns a board`() {
         val board = BoardEntity("bored")
