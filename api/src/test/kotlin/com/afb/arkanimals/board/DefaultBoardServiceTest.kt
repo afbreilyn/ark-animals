@@ -33,9 +33,6 @@ class DefaultBoardServiceTest {
     @Autowired
     lateinit var boardService: BoardService
 
-    @Before
-
-
     @Test
     fun `it returnsById`() {
         val datBoardEntity = BoardEntity("random title", id = 3L)

@@ -9,7 +9,7 @@ export const Home = (_: RouteComponentProps) => {
     <div className="App">
       <h1>Make a board to put sticky notes on!</h1>
 
-      <CreateBoardForm/>
+      <CreateBoardForm />
     </div>
   );
 };
