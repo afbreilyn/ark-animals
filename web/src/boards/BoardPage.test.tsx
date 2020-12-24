@@ -37,11 +37,13 @@ describe('<BoardPage />', () => {
   describe('list of stickies', () => {
     beforeEach(() => {
       const stickyNote1: StickyNote = {
-        content: 'mando'
+        content: 'mando',
+        boardId: '1',
       };
 
       const stickyNote2: StickyNote = {
-        content: 'baby yoda'
+        content: 'baby yoda',
+        boardId: '2',
       };
 
       mockedAxios.get.mockResolvedValue({
