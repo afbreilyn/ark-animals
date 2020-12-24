@@ -1,6 +1,6 @@
-import React, { FormEvent } from "react";
-import axios from "axios";
-import { StickyNote } from "./sticky-note";
+import React, { FormEvent } from 'react';
+import axios from 'axios';
+import { StickyNote } from './sticky-note';
 
 interface StickyNoteFormProps {
   afterwards: (arg: StickyNote) => void,
@@ -8,10 +8,9 @@ interface StickyNoteFormProps {
 }
 
 export const CreateStickyNoteForm = ({
-                                       afterwards,
-                                       boardId,
-                                     }: StickyNoteFormProps
-) => {
+  afterwards,
+  boardId,
+}: StickyNoteFormProps) => {
   const mySubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     e.persist();
@@ -19,7 +18,7 @@ export const CreateStickyNoteForm = ({
     const els = e.currentTarget.elements;
     axios.post('/api/sticky-notes', {
       content: (els.namedItem('sticky-text') as HTMLInputElement).value,
-      boardId: boardId,
+      boardId,
     })
       .then((response) => {
         (e.target as HTMLFormElement).reset();
@@ -33,14 +32,16 @@ export const CreateStickyNoteForm = ({
   return (
     <form
       data-testid="new-stickynote-form"
-      onSubmit={e => mySubmit(e)}
+      onSubmit={(e) => mySubmit(e)}
     >
-      <label htmlFor="sticky-text">Sticky note text</label>
-      <input
-        id="sticky-text"
-        name="sticky-text"
-        data-testid="sticky-text-input"
-      />
+      <label htmlFor="sticky-text">
+        Sticky note text
+        <input
+          id="sticky-text"
+          name="sticky-text"
+          data-testid="sticky-text-input"
+        />
+      </label>
       <button type="submit" data-testid="submit-button">Submit</button>
     </form>
   );

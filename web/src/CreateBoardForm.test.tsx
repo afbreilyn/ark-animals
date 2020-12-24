@@ -2,13 +2,13 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import axios from 'axios';
-import { act } from "react-dom/test-utils";
-import CreateBoardForm from "./CreateBoardForm";
-import { Board } from "./boards/board";
+import { act } from 'react-dom/test-utils';
 import { navigate } from '@reach/router';
+import CreateBoardForm from './CreateBoardForm';
+import { Board } from './boards/board';
 
 function flushPromises(): Promise<any> {
-  return new Promise(resolve => setImmediate(resolve));
+  return new Promise((resolve) => setImmediate(resolve));
 }
 
 jest.spyOn(console, 'log');
@@ -25,7 +25,7 @@ describe('<CreateBoardForm />', () => {
   });
 
   it('displays a text input and label', () => {
-    const { getByLabelText, getByTestId } = render(<CreateBoardForm/>);
+    const { getByLabelText, getByTestId } = render(<CreateBoardForm />);
 
     expect(getByLabelText('Make a board')).toBeInTheDocument();
     expect(getByTestId('board-title-input')).toBeTruthy();
@@ -34,14 +34,14 @@ describe('<CreateBoardForm />', () => {
   it('can submit the form and navigate away', async () => {
     mockedAxios.post.mockResolvedValue({
       data: {
-        title: "razor crest",
+        title: 'razor crest',
         id: 'tk421',
         stickyNotes: [],
-      }
+      },
     });
 
-    const { getByTestId } = render(<CreateBoardForm/>);
-    let inputEl = getByTestId('board-title-input') as HTMLInputElement;
+    const { getByTestId } = render(<CreateBoardForm />);
+    const inputEl = getByTestId('board-title-input') as HTMLInputElement;
 
     fireEvent.change(inputEl, { target: { value: 'razor crest' } });
     fireEvent.click(getByTestId('submit-button'));
@@ -50,11 +50,11 @@ describe('<CreateBoardForm />', () => {
 
     const myBoard: Board = {
       title: 'razor crest',
-      stickyNotes: []
+      stickyNotes: [],
     };
 
     expect(mockedAxios.post).toHaveBeenCalledWith(
-      "/api/boards",
+      '/api/boards',
       myBoard,
     );
 

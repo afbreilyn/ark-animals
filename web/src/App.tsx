@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
 
-
 export const App = (props: any) => {
+  const { children } = props;
+
   return (
     <div className="App">
-      {props.children}
-      {/*<h1>Make a board to put sticky notes on!</h1>*/}
-
-      {/*<CreateBoardForm/>*/}
+      {children}
     </div>
   );
 };

@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { act } from "react-dom/test-utils";
-import React from "react";
-import BoardPage from "./BoardPage";
+import { act } from 'react-dom/test-utils';
+import React from 'react';
 import { fireEvent, render, within } from '@testing-library/react';
-import { StickyNote } from "../sticky-notes/sticky-note";
+import BoardPage from './BoardPage';
+import { StickyNote } from '../sticky-notes/sticky-note';
 
 function flushPromises(): Promise<any> {
-  return new Promise(resolve => setImmediate(resolve));
+  return new Promise((resolve) => setImmediate(resolve));
 }
 
 jest.spyOn(console, 'log');
@@ -18,18 +18,18 @@ describe('<BoardPage />', () => {
     mockedAxios.get.mockResolvedValue({
       data: {
         title: 'dope title',
-        stickyNotes: []
-      }
+        stickyNotes: [],
+      },
     });
 
     const { getByText } = render(
-      <BoardPage boardId={"my-cool-board-id"}/>
+      <BoardPage boardId="my-cool-board-id" />,
     );
 
     await act(flushPromises);
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      "/api/boards/my-cool-board-id",
+      '/api/boards/my-cool-board-id',
     );
     expect(getByText('dope title'));
   });
@@ -52,13 +52,13 @@ describe('<BoardPage />', () => {
           stickyNotes: [
             stickyNote1,
             stickyNote2,
-          ]
-        }
+          ],
+        },
       });
     });
 
     it('displays a list of past sticky notes', async () => {
-      const { queryByTestId } = render(<BoardPage boardId={"my-dope-board-id"}/>);
+      const { queryByTestId } = render(<BoardPage boardId="my-dope-board-id" />);
       await act(flushPromises);
 
       const stickyNoteList = queryByTestId('sticky-note-list') as HTMLElement;
@@ -68,15 +68,15 @@ describe('<BoardPage />', () => {
 
       const listOfStickyNotes = within(stickyNoteList);
 
-      expect(listOfStickyNotes.getByText("mando", { exact: false })).toBeInTheDocument();
-      expect(listOfStickyNotes.getByText("baby yoda", { exact: false })).toBeInTheDocument();
+      expect(listOfStickyNotes.getByText('mando', { exact: false })).toBeInTheDocument();
+      expect(listOfStickyNotes.getByText('baby yoda', { exact: false })).toBeInTheDocument();
     });
 
     describe('after making a new sticky note', () => {
       it('adds the sticky note to the list', async () => {
-        mockedAxios.post.mockResolvedValue({ data: { content: "ahsoka tano" } });
+        mockedAxios.post.mockResolvedValue({ data: { content: 'ahsoka tano' } });
 
-        const { queryByTestId, getByTestId } = render(<BoardPage boardId={"my-dope-board-id"}/>);
+        const { queryByTestId, getByTestId } = render(<BoardPage boardId="my-dope-board-id" />);
         await act(flushPromises);
 
         const inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
@@ -88,9 +88,9 @@ describe('<BoardPage />', () => {
 
         const listOfStickyNotes = within(queryByTestId('sticky-note-list') as HTMLElement);
 
-        expect(listOfStickyNotes.getByText("mando", { exact: false })).toBeInTheDocument();
-        expect(listOfStickyNotes.getByText("baby yoda", { exact: false })).toBeInTheDocument();
-        expect(listOfStickyNotes.getByText("ahsoka tano", { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText('mando', { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText('baby yoda', { exact: false })).toBeInTheDocument();
+        expect(listOfStickyNotes.getByText('ahsoka tano', { exact: false })).toBeInTheDocument();
       });
     });
   });
@@ -103,7 +103,7 @@ describe('<BoardPage />', () => {
 
     mockedAxios.get.mockRejectedValueOnce(err);
 
-    render(<BoardPage boardId={"my-not-very-good-board-id"}/>);
+    render(<BoardPage boardId="my-not-very-good-board-id" />);
 
     await act(flushPromises);
 
@@ -116,16 +116,16 @@ describe('<BoardPage />', () => {
     });
 
     it('displays a form', async () => {
-      const { queryByTestId } = render(<BoardPage boardId={"id"}/>);
+      const { queryByTestId } = render(<BoardPage boardId="id" />);
       await act(flushPromises);
 
       expect(queryByTestId('new-stickynote-form')).toBeTruthy();
     });
 
     it('can displays the returned value from the form', async () => {
-      mockedAxios.post.mockResolvedValue({ data: { content: "mustachio" } });
+      mockedAxios.post.mockResolvedValue({ data: { content: 'mustachio' } });
 
-      const { getByTestId, getByText } = render(<BoardPage boardId={"id"}/>);
+      const { getByTestId, getByText } = render(<BoardPage boardId="id" />);
       await act(flushPromises);
 
       const inputEl = getByTestId('sticky-text-input') as HTMLInputElement;
@@ -135,7 +135,7 @@ describe('<BoardPage />', () => {
 
       await act(flushPromises);
 
-      expect(getByText("mustachio", { exact: false })).toBeInTheDocument();
+      expect(getByText('mustachio', { exact: false })).toBeInTheDocument();
     });
   });
 });

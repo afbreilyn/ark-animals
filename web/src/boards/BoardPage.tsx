@@ -1,17 +1,18 @@
-import { RouteComponentProps } from "@reach/router";
-import React, { useEffect, useState } from "react";
-import { StickyNote } from "../sticky-notes/sticky-note";
-import axios, { AxiosResponse } from "axios";
-import { Board } from "./board";
-import CreateStickyNoteForm from "../sticky-notes/CreateStickyNoteForm";
+import { RouteComponentProps } from '@reach/router';
+import React, { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { StickyNote } from '../sticky-notes/sticky-note';
+import { Board } from './board';
+import CreateStickyNoteForm from '../sticky-notes/CreateStickyNoteForm';
 
 interface BoardPageProps extends RouteComponentProps {
+  // eslint-disable-next-line react/require-default-props
   boardId?: string
 }
 
-export const BoardPage = ({
-                            boardId
-                          }: BoardPageProps) => {
+export const BoardPage: React.FC<BoardPageProps> = ({
+  boardId,
+}: BoardPageProps) => {
   const [board, setBoard] = useState({ title: '', stickyNotes: [] as StickyNote[] } as Board);
   const [stickyNoteList, setStickyNoteList] = useState([] as StickyNote[]);
 
@@ -39,14 +40,14 @@ export const BoardPage = ({
 
       <div data-testid="sticky-note-list">
         {
-          stickyNoteList.map(stickyNote => (
+          stickyNoteList.map((stickyNote) => (
             <div key={stickyNote.content}>
               {stickyNote.content}
             </div>
           ))
         }
         {
-          board.stickyNotes && board.stickyNotes.map(sticky => (
+          board.stickyNotes && board.stickyNotes.map((sticky) => (
             <div key={sticky.content}>
               {sticky.content}
             </div>

@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
-import { navigate } from "@reach/router";
-import axios from "axios";
+import { navigate } from '@reach/router';
+import axios from 'axios';
 
 export const CreateBoardForm = () => {
   const submitBoardForm = (e: FormEvent<HTMLFormElement>): void => {
@@ -15,7 +15,7 @@ export const CreateBoardForm = () => {
       .then((response) => {
         // (e.target as HTMLFormElement).reset();
         // afterwards(response.data);
-        navigate(`/boards/${response.data.id}`)
+        navigate(`/boards/${response.data.id}`);
       })
       .catch((err) => {
         // console.log(err);
@@ -25,18 +25,19 @@ export const CreateBoardForm = () => {
   return (
     <form
       data-testid="new-board-form"
-      onSubmit={e => submitBoardForm(e)}
+      onSubmit={(e) => submitBoardForm(e)}
     >
-      <label htmlFor="board-title">Make a board</label>
-      <input
-        id="board-title"
-        name="board-title"
-        data-testid="board-title-input"
-      />
+      <label htmlFor="board-title">
+        Make a board
+        <input
+          id="board-title"
+          name="board-title"
+          data-testid="board-title-input"
+        />
+      </label>
       <button type="submit" data-testid="submit-button">Submit</button>
     </form>
   );
 };
 
 export default CreateBoardForm;
-

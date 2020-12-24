@@ -1,4 +1,4 @@
-import { StickyNote } from "../sticky-notes/sticky-note";
+import { StickyNote } from '../sticky-notes/sticky-note';
 
 export interface Board {
   title: string,
