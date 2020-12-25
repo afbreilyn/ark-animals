@@ -41,8 +41,12 @@
           ".ts",
           ".tsx",
           ".d.ts"
-        ] }]
-    },
+        ]
+      }
+    ],
+    "react/require-default-props": [0],
+    "no-console": "off"
+  },
   "settings": {
     "import/resolver": {
       "node": {

@@ -10,7 +10,7 @@ function flushPromises(): Promise<any> {
   return new Promise((resolve) => setImmediate(resolve));
 }
 
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'error');
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const afterwards = jest.fn();
@@ -67,6 +67,6 @@ describe('<CreateStickyNoteForm />', () => {
 
     expect(afterwards).not.toHaveBeenCalled();
 
-    expect(console.log).toHaveBeenCalledWith(err);
+    expect(console.error).toHaveBeenCalledWith(err);
   });
 });

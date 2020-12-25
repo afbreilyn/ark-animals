@@ -6,7 +6,6 @@ import { Board } from './board';
 import CreateStickyNoteForm from '../sticky-notes/CreateStickyNoteForm';
 
 interface BoardPageProps extends RouteComponentProps {
-  // eslint-disable-next-line react/require-default-props
   boardId?: string
 }
 
@@ -22,7 +21,7 @@ export const BoardPage: React.FC<BoardPageProps> = ({
         setBoard(response.data);
       })
       .catch((e) => {
-        console.log(`error in finding that board: ${e}`);
+        console.error(`error in finding that board: ${e}`);
       });
   }, [boardId]);
 

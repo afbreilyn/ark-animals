@@ -25,7 +25,7 @@ export const CreateStickyNoteForm = ({
         afterwards(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

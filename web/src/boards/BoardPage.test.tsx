@@ -9,7 +9,7 @@ function flushPromises(): Promise<any> {
   return new Promise((resolve) => setImmediate(resolve));
 }
 
-jest.spyOn(console, 'log');
+jest.spyOn(console, 'error');
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
@@ -107,7 +107,7 @@ describe('<BoardPage />', () => {
 
     await act(flushPromises);
 
-    expect(console.log).toHaveBeenCalledWith(`error in finding that board: ${err}`);
+    expect(console.error).toHaveBeenCalledWith(`error in finding that board: ${err}`);
   });
 
   describe('the create new stickynotes form', () => {
