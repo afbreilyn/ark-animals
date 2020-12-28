@@ -35,7 +35,7 @@ describe('<Home />', () => {
   it('navigates to a new page when it can create a board', async () => {
     mockedAxios.post.mockResolvedValue({ data: { title: '2x4', id: 'meowmeowmeow' } });
 
-    const { getByTestId, getByText } = render(<Home />);
+    const { getByTestId } = render(<Home />);
     await act(flushPromises);
 
     const inputEl = getByTestId('board-title-input') as HTMLInputElement;
