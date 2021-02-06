@@ -17,15 +17,23 @@ class StickyNoteController {
         return stickyNoteService.findAll().toList()
     }
 
-    @GetMapping("/sticky-notes/{content}")
-    fun getAllStickyNotesByContent(@PathVariable content: String): List<StickyNote> {
-        return stickyNoteService.findAllByContent(content).toList()
-    }
-
     @PostMapping("/sticky-notes")
     fun createStickyNote(@RequestBody stickyNote: StickyNote): ResponseEntity<StickyNote> {
         val status = HttpStatus.CREATED
         val saved: StickyNote = stickyNoteService.save(stickyNote)
         return ResponseEntity(saved, status)
+    }
+
+    @DeleteMapping("/sticky-notes/{id}")
+    fun deleteStickyNote(@PathVariable id: Long): ResponseEntity<Void> {
+        val didItWork: StickyNoteServiceResponse = stickyNoteService.delete(id)
+
+        val status: HttpStatus = if (didItWork.status) {
+            HttpStatus.NO_CONTENT
+        } else {
+            HttpStatus.NOT_FOUND
+        }
+
+        return ResponseEntity(status)
     }
 }

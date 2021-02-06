@@ -37,11 +37,13 @@ describe('<BoardPage />', () => {
   describe('list of stickies', () => {
     beforeEach(() => {
       const stickyNote1: StickyNote = {
+        id: '9',
         content: 'mando',
         boardId: '1',
       };
 
       const stickyNote2: StickyNote = {
+        id: '7',
         content: 'baby yoda',
         boardId: '2',
       };
@@ -54,6 +56,10 @@ describe('<BoardPage />', () => {
             stickyNote2,
           ],
         },
+      });
+
+      mockedAxios.delete.mockResolvedValue({
+        status: 200,
       });
     });
 
@@ -69,6 +75,29 @@ describe('<BoardPage />', () => {
       const listOfStickyNotes = within(stickyNoteList);
 
       expect(listOfStickyNotes.getByText('mando', { exact: false })).toBeInTheDocument();
+      expect(listOfStickyNotes.getByText('baby yoda', { exact: false })).toBeInTheDocument();
+    });
+
+    it('can remove a stickynote from the list', async () => {
+      const { queryAllByTestId, queryByTestId } = render(<BoardPage boardId="102" />);
+      await act(flushPromises);
+
+      let stickyNoteList = queryByTestId('sticky-note-list') as HTMLElement;
+      let listOfStickyNotes = within(stickyNoteList);
+      expect(listOfStickyNotes.queryAllByTestId('delete-sticky-note').length).toBe(2);
+
+      const x = queryAllByTestId('delete-sticky-note')[0] as HTMLButtonElement;
+      fireEvent.click(x);
+
+      await act(flushPromises);
+
+      expect(mockedAxios.delete).toHaveBeenCalledWith(
+        '/api/sticky-notes/9',
+      );
+
+      stickyNoteList = queryByTestId('sticky-note-list') as HTMLElement;
+      listOfStickyNotes = within(stickyNoteList);
+      expect(listOfStickyNotes.queryAllByTestId('delete-sticky-note').length).toBe(1);
       expect(listOfStickyNotes.getByText('baby yoda', { exact: false })).toBeInTheDocument();
     });
 
@@ -112,7 +141,7 @@ describe('<BoardPage />', () => {
 
   describe('the create new stickynotes form', () => {
     beforeEach(async () => {
-      mockedAxios.get.mockResolvedValue({ data: {} });
+      mockedAxios.get.mockResolvedValue({ data: { title: 'dooku', stickyNotes: [] } });
     });
 
     it('displays a form', async () => {

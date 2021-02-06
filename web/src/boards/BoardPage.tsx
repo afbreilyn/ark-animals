@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { StickyNote } from '../sticky-notes/sticky-note';
 import { Board } from './board';
 import CreateStickyNoteForm from '../sticky-notes/CreateStickyNoteForm';
+import DisplayStickyNote from '../DisplayStickyNote';
 
 interface BoardPageProps extends RouteComponentProps {
   boardId?: string
@@ -19,6 +20,7 @@ export const BoardPage: React.FC<BoardPageProps> = ({
     axios.get(`/api/boards/${boardId}`)
       .then((response: AxiosResponse<Board>) => {
         setBoard(response.data);
+        setStickyNoteList(response.data.stickyNotes);
       })
       .catch((e) => {
         console.error(`error in finding that board: ${e}`);
@@ -28,6 +30,16 @@ export const BoardPage: React.FC<BoardPageProps> = ({
   const addStickyNoteToState = ((newStickyNote: StickyNote) => {
     setStickyNoteList([...stickyNoteList, newStickyNote]);
   });
+
+  const deleteStickyNoteFun = (stickyNoteId: string) => {
+    axios.delete(`/api/sticky-notes/${stickyNoteId}`)
+      .then(() => {
+        const newStickyNoteList = stickyNoteList.filter(
+          (stickyNote: StickyNote) => stickyNoteId !== stickyNote.id,
+        );
+        setStickyNoteList(newStickyNoteList);
+      });
+  };
 
   return (
     <div>
@@ -40,16 +52,10 @@ export const BoardPage: React.FC<BoardPageProps> = ({
       <div data-testid="sticky-note-list">
         {
           stickyNoteList.map((stickyNote) => (
-            <div key={stickyNote.content}>
-              {stickyNote.content}
-            </div>
-          ))
-        }
-        {
-          board.stickyNotes && board.stickyNotes.map((sticky) => (
-            <div key={sticky.content}>
-              {sticky.content}
-            </div>
+            <DisplayStickyNote
+              stickyNote={stickyNote}
+              deleteFun={deleteStickyNoteFun}
+            />
           ))
         }
       </div>

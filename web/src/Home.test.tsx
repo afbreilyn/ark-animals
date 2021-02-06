@@ -50,6 +50,5 @@ describe('<Home />', () => {
   });
 
   it('shows an error if the board does not properly submit', () => {
-
   });
 });

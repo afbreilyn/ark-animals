@@ -21,7 +21,7 @@ class BoardRepositoryTest {
     }
 
     @Test
-    fun `returns a Board with stickies by id`() {
+    fun `returns a Board by id`() {
         val board = BoardEntity("who cares")
         boardRepository.save(board)
 

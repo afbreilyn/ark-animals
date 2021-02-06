@@ -21,21 +21,35 @@ class StickyNoteRepositoryTest {
     }
 
     @Test
-    fun `returns a sticky note when searching by content`() {
-        val stickyNote = StickyNote(content = "meow name", boardId = 2L)
-        val stickyNote2 = StickyNote(content = "another name", boardId = 3L)
-        stickyNoteRepository.save(stickyNote)
-        stickyNoteRepository.save(stickyNote2)
-
-        val found = stickyNoteRepository.findAllByContent("meow name")
-        assertThat(found.first()).isEqualTo(stickyNote)
-    }
-
-    @Test
     fun `saves and returns a stickyNote`() {
         val stickyNote = StickyNote(content = "bb8", boardId = 4L)
         val found = stickyNoteRepository.save(stickyNote)
 
         assertThat(found).isEqualTo(stickyNote)
+    }
+
+    @Test
+    fun `can delete a sticky note if one exists`() {
+        val stickyNote = StickyNote(content = "bastila shan", boardId = 5L)
+        val saved: StickyNote = stickyNoteRepository.save(stickyNote)
+
+        val repoResponse = stickyNoteRepository.deleteById(saved.id!!)
+
+        try {
+            val nope = stickyNoteRepository.findByIdOrNull(1L)
+            assertThat(nope).isEqualTo(null)
+        } catch (error: Exception) {
+        }
+
+        assertThat(repoResponse).isEqualTo(Unit)
+    }
+
+    @Test
+    fun `throws an error when told to delete a sticky note that doesn't exist`() {
+        try {
+            stickyNoteRepository.deleteById(66L)
+        } catch (error: Exception) {
+            assertThat(error.message).contains("entity with id 66 exists!")
+        }
     }
 }

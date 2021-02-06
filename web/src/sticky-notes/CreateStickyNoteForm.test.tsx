@@ -29,6 +29,7 @@ describe('<CreateStickyNoteForm />', () => {
 
   it('can submit and clear the form', async () => {
     const myStickyNote: StickyNote = {
+      id: '5',
       content: 'mustachio',
       boardId: 'board-id',
     };

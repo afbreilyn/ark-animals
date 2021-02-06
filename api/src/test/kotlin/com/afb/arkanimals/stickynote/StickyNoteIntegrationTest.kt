@@ -14,14 +14,14 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = [ArkAnimalsApplication::class])
+    classes = [ArkAnimalsApplication::class]
+)
 @AutoConfigureMockMvc
 //@EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
 //@AutoConfigureTestDatabase
@@ -39,22 +39,23 @@ class StickyNoteIntegrationTest {
 
     @Test
     fun `returns from all`() {
-        val stickyNote = StickyNote("aaron", 0L)
+        // TODO: this shouldn't exist
+        val stickyNote = StickyNote("aaron", 0)
         stickyNoteRepository.saveAndFlush(stickyNote)
 
         mvc.perform(
-            MockMvcRequestBuilders.get("/api/sticky-notes/aaron")
+            MockMvcRequestBuilders.get("/api/sticky-notes")
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andExpect(MockMvcResultMatchers.status().is2xxSuccessful)
             .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
             .andExpect(MockMvcResultMatchers.jsonPath("$[*].content").value("aaron"))
             .andExpect(MockMvcResultMatchers.jsonPath("$[*].boardId").value(0))
-
     }
 
     @Test
     fun `findAll works`() {
+        // TODO: this shouldn't exist .... we need a "find all by board ID"
         val mustachio = StickyNote("cedar", 1L)
         stickyNoteRepository.saveAndFlush(mustachio)
 
@@ -77,6 +78,23 @@ class StickyNoteIntegrationTest {
         val found: List<StickyNote> = stickyNoteRepository.findAll()
         assertThat(found.first().content).isEqualTo("anne")
         assertThat(found.first().boardId).isEqualTo(2L)
+    }
+
+    @Test
+    fun `deletes a sticky note and returns a 200`() {
+        val found1: List<StickyNote> = stickyNoteRepository.findAll()
+        assertThat(found1.size).isEqualTo(0)
+
+        val plsDontDeleteMe = StickyNote("too bad", 2L)
+        val plsDontDeleteMeToo = StickyNote("ok", 1L)
+
+        val gonnaGetDeleted = stickyNoteRepository.saveAndFlush(plsDontDeleteMe)
+        stickyNoteRepository.saveAndFlush(plsDontDeleteMeToo)
+
+        mvc.perform(delete("/api/sticky-notes/${gonnaGetDeleted.id}"))
+
+        val found: List<StickyNote> = stickyNoteRepository.findAll()
+        assertThat(found.size).isEqualTo(1)
     }
 
     fun toJson(`object`: Any?): ByteArray {
