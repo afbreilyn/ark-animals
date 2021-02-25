@@ -28,11 +28,16 @@ describe('<CreateStickyNoteForm />', () => {
   });
 
   it('can submit and clear the form', async () => {
-    const myStickyNote: StickyNote = {
-      id: '5',
+    const myAlmostStickyNote = {
       content: 'mustachio',
       boardId: 'board-id',
     };
+
+    const myStickyNote: StickyNote = {
+      ...myAlmostStickyNote,
+      id: '1',
+    };
+
     mockedAxios.post.mockResolvedValue({ data: myStickyNote });
 
     const { getByTestId } = render(<CreateStickyNoteForm afterwards={afterwards} boardId="board-id" />);
@@ -44,7 +49,7 @@ describe('<CreateStickyNoteForm />', () => {
     await act(flushPromises);
     expect(mockedAxios.post).toHaveBeenCalledWith(
       '/api/sticky-notes',
-      myStickyNote,
+      myAlmostStickyNote,
     );
     expect(afterwards).toHaveBeenCalledWith(myStickyNote);
     expect(inputEl.value).toBe('');
